@@ -14,12 +14,12 @@ class doubly:
         self.top = max
 
     def append(self, data):
-        if self.head is None:
+        if self.head is None and self.counter < self.top:
             my_new_node = my_node(data)
             self.head = my_new_node
             self.counter = self.counter+1
 
-        else:
+        elif self.counter < self.top:
             my_new_node = my_node(data)
             curr = self.head
             while(curr.next):
@@ -27,7 +27,9 @@ class doubly:
             curr.next = my_new_node
             my_new_node.prev = curr
             my_new_node.next = None
-            self.counter = self.counter+1
+            self.counter = self.counter+1        
+        else:
+            print("Cache full")
 
     def at_direct_index(self, index, data):
         if(self.counter <= index):
@@ -51,13 +53,7 @@ class doubly:
         my_new_node.next = temp
 
     def Queue(self, data):
-        if self.head is None:
-            self.append(data)
-            return
-        my_new_node = my_node(data)
-        temp = self.head
-        my_new_node.next = self.head
-        self.head = my_new_node
+        self.append(data)
 
     def display(self):
         temp = self.head
@@ -75,7 +71,7 @@ class doubly:
             while (cur.next is not None):
                 cur = cur.next
 
-        #    prev = cur.prev
-        #    prev.next = None
+            prev = cur.prev
+            prev.next = None
             cur.prev = None
             cur = None
