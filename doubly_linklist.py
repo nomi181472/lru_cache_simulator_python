@@ -8,9 +8,10 @@ class my_node:
 
 
 class doubly:
-    def __init__(self):
+    def __init__(self,max):
         self.head = None
         self.counter = -1
+        self.top = max
 
     def append(self, data):
         if self.head is None:
