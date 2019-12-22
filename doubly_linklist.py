@@ -71,7 +71,8 @@ class doubly:
             while (cur.next is not None):
                 cur = cur.next
 
+            self.counter = self.counter-1
             prev = cur.prev
             prev.next = None
             cur.prev = None
-            cur = None
+            return cur
