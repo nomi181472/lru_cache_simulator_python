@@ -65,10 +65,4 @@ class doubly:
             temp = temp.next
 
 
-if __name__ == "__main__":
-    obj = doubly()
-    obj.Queue(3)
-    obj.Queue(4)
-    obj.Queue(6)
-    obj.Queue(7)
-    obj.display()
+
