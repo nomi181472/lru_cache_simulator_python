@@ -3,7 +3,8 @@ if __name__ == "__main__":
     obj = dll.doubly(5)
     obj.Queue(1)
     obj.Queue(2)
-#    obj.Queue(3)
-#    obj.display()
+    obj.Queue(3)
     obj.Dequeue()
     obj.display()
+    if(obj.findBlock(3)):
+        print("found")

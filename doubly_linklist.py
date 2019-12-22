@@ -21,12 +21,10 @@ class doubly:
 
         elif self.counter < self.top:
             my_new_node = my_node(data)
-            curr = self.head
-            while(curr.next):
-                curr = curr.next
-            curr.next = my_new_node
-            my_new_node.prev = curr
-            my_new_node.next = None
+            my_new_node.next = self.head
+            self.head.prev = my_new_node
+            my_new_node.prev = None
+            self.head = my_new_node
             self.counter = self.counter+1        
         else:
             print("Cache full")
@@ -71,8 +69,15 @@ class doubly:
             while (cur.next is not None):
                 cur = cur.next
 
-            self.counter = self.counter-1
             prev = cur.prev
             prev.next = None
             cur.prev = None
+            self.counter = self.counter-1
             return cur
+
+    def findBlock(self,key):
+        cur = self.head
+        while(cur.data != key):
+            cur = cur.next
+
+        return cur
