@@ -63,6 +63,18 @@ class doubly:
         while(temp):
             print(temp.data)
             temp = temp.next
+    
+    def Dequeue(self):
+        cur = self.head
 
+        if cur.next is None:
+            cur = None
+            self.head = None
+        else:
+            while (cur.next is not None):
+                cur = cur.next
 
-
+        #    prev = cur.prev
+        #    prev.next = None
+            cur.prev = None
+            cur = None
