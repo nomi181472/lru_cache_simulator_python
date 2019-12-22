@@ -53,7 +53,17 @@ class doubly:
         my_new_node.next = temp
 
     def Queue(self, data):
-        self.append(data)
+        if (self.counter==-1):
+            self.append(data)
+            return
+        if (self.counter!=self.top-1):    
+            my_new_node=my_node(data)
+            my_new_node.next=self.head
+            self.head=my_new_node
+            self.counter=self.counter+1
+        else:
+            print("Cache iss full")
+            
 
     def display(self):
         temp = self.head
@@ -75,3 +85,13 @@ class doubly:
             prev.next = None
             cur.prev = None
             cur = None
+
+
+if __name__ == "__main__":
+    obj=doubly(3)
+    obj.Queue(1)
+    obj.Queue(2)
+    obj.Queue(1)
+    obj.Queue(2)
+   
+    obj.display()    
