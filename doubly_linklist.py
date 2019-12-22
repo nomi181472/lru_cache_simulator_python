@@ -65,10 +65,13 @@ class doubly:
             print("Cache iss full")
             
 
-    def display(self):
+    def display(self,mem=0,block=0):
         temp = self.head
+        mem=mem*block
         while(temp):
-            print(temp.data)
+            
+            print(mem,': ',temp.data) 
+            mem=mem+1
             temp = temp.next
     
     def Dequeue(self):
