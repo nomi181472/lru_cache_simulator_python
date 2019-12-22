@@ -62,7 +62,25 @@ class doubly:
         else:
             print("Cache iss full")
             
+    def delete_node(self,data):
+        cur=self.head
+        if cur and cur.data==data:
+            self.head=self.head.next
+            cur=None
+            self.counter=self.counter-1
+            return
+        prev=None
+        while cur and cur.data!=data:
+            prev=cur
+            cur=cur.next
+        if cur:
+            prev.next=cur.next
+            cur=None
+            self.counter=self.counter-1
+            return
 
+        
+        
     def display(self,mem=0,block=0):
         temp = self.head
         mem=mem*block
@@ -88,11 +106,33 @@ class doubly:
             self.counter = self.counter-1
             return cur
 
-    def findBlock(self,key):
+    def findBlock(self,key,is_from_Ram):
         cur = self.head
-        while(cur.data != key):
+        miss_planty=0
+        while(cur):
+            if is_from_Ram ==True:
+                miss_planty=miss_planty+1
+            if(cur.data == key):
+                return tuple((True,miss_planty))
             cur = cur.next
+        return(False,0)            
 
-        return cur
+'''if __name__ == "__main__":
+    obj=doubly(6)
+    obj.Queue(3)
+    obj.Queue(4)
+    obj.Queue(5)
+    obj.display()
+    obj.delete_node(5)
+    obj.display()
+    obj.Queue(6)
+    obj.display()
+    obj.delete_node(3)
+    obj.display()
+    obj.Queue(1)
+    obj.delete_node(6)
+    obj.display()
+'''
+    
 
         
