@@ -81,3 +81,5 @@ class doubly:
             cur = cur.next
 
         return cur
+
+        
