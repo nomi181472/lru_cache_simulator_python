@@ -57,9 +57,11 @@ class memory:
 
 
 if __name__ == "__main__":
+
     lru = memory()
     ram_size = int(input("Enter Ram Size:"))
     block_size = int(input("\nEnter Block Size:"))
     lru.set(ram_size, 0, 0, 0, block_size)
     lru.execute_inst()
     lru.start_execute()
+    
