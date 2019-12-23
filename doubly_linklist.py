@@ -113,15 +113,17 @@ class doubly:
             return result
 
     def findBlock(self,key,is_from_Ram):
+        hit_time=0
         cur = self.head
         miss_planty=0
         while(cur):
+            hit_time=hit_time+1
             if is_from_Ram ==True:
                 miss_planty=miss_planty+1
             if(cur.data == key):
-                return tuple((True,miss_planty))
+                return tuple((hit_time,True,miss_planty))
             cur = cur.next
-        return(False,0)            
+        return(hit_time,False,0)            
 '''
 if __name__ == "__main__":
     obj=doubly(6)

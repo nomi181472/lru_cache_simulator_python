@@ -75,9 +75,7 @@ class memory:
                 self.order2.Queue(past)
                 self.level2[past]=value
                 self.Handle_cache1(bk,inst)
-                self.hit_time=self.hit_time+1
             else:
-                self.hit_time=self.hit_time+1
                 past=self.order2.Dequeue()
                 waste_it=self.level2.pop(past)
                 self.Handle_cache1(bk,inst)
@@ -91,9 +89,9 @@ class memory:
         self.order1.Queue(bk)
         if(len(self.level2)<int(self.c2/self.block)):
             self.order2.Queue(past)
-            self.level2[past]=value2
-        self.hit_time=self.hit_time+2  #here we take 2 because of cache level 2
-        is_found,mi=value.findBlock(inst,check)
+            self.level2[past]=value2  
+        hit,is_found,mi=value.findBlock(inst,check)
+        self.hit_time=self.hit_time+hit
         self.MissPlanty=self.MissPlanty+mi
         if is_found==False:
             self.execution_list.append(inst)
@@ -120,8 +118,8 @@ class memory:
            
     def maintain(self,bk,inst,check):
         value=self.Level1[bk]
-        self.hit_time=self.hit_time+1
-        is_found,mi=value.findBlock(inst,check)
+        hit,is_found,mi=value.findBlock(inst,check)
+        self.hit_time=self.hit_time+hit
         self.MissPlanty=self.MissPlanty+mi
         if self.order1.counter!=-1 and check==False and is_found==True :
             self.order1.delete_node(bk)
@@ -150,13 +148,14 @@ class memory:
                 elif not(bk in self.Level1):
                     self.Handle_cache1(bk,inst)
             self.show_info()
-        os.system("cls")
-        print("\nMiss penalty:",self.MissPlanty)
+        
+        print("\n\n\nMiss penalty:",self.MissPlanty)
         print("\nNo of Cache hits:",self.no_of_cache_hit)
-        self.hit_ratio=(self.no_of_cache_hit)/(self.no_of_cache_hit+self.MissPlanty)*100
-        print("\nHit Ratio: ",self.hit_ratio,"%")
-        print("\nMiss Rate:",1-self.hit_ratio,"%")
-        print("Avg Access Memory:",self.hit_time+(1-self.hit_ratio/100)*self.MissPlanty)
+        if self.no_of_cache_hit>0 or self.MissPlanty>0:
+            self.hit_ratio=((self.no_of_cache_hit)/(self.no_of_cache_hit+self.MissPlanty))*100
+            print("\nHit Ratio: ",self.hit_ratio,"%")
+            print("\nMiss Rate:",100-self.hit_ratio,"%")
+            print("Avg Access Memory:",self.hit_time+(1-self.hit_ratio/100)*self.MissPlanty)
                     
 
                 
