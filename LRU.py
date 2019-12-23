@@ -53,13 +53,41 @@ class memory:
     def Handle_cache1(self,bk,inst):
         if self.Level1 is None:
             self.Level1=dict()
-            self.order1=dll.doubly(self.block)
+            self.level2=dict()
+            self.order1=dll.doubly(self.c1/self.block)
         length_of_cache=len(self.Level1)
         if length_of_cache<(self.c1/self.block):
             value=self.Ram[bk]
             self.Level1[bk]=value
             self.maintain(bk,inst,True)
-
+        else:
+            past=self.order1.Dequeue()
+            value=self.Level1.pop(past)
+            if self.order2 is None:
+                self.order2=dll.doubly(int(self.c2/self.block))
+            length_of_cache2=len(self.level2)
+            if length_of_cache2<(self.c2/self.block):
+                self.level2[past]=value
+                self.Handle_cache1(bk,inst)
+                #self.maintain2(past,inst,False)
+                
+    def handle_cache2(self,bk,inst,check):
+        
+        value=self.level2[bk]
+        past=self.order1.Dequeue()
+        value2=self.Level1.pop(past)
+        self.Level1[bk]=value
+        self.order1.Queue(bk)
+        if(len(self.level2)<self.c2/self.block):
+            self.order2.Queue(past)
+            self.level2[past]=value2
+        self.hit_time=self.hit_time+2  #here we take 2 because of cache level 2
+        is_found,mi=value.findBlock(inst,check)
+        self.MissPlanty=self.MissPlanty+mi
+        if is_found==False:
+            self.execution_list.append(inst)
+            self.execution_list_with_blocks.append(bk)
+        
     def maintain(self,bk,inst,check):
         value=self.Level1[bk]
         self.hit_time=self.hit_time+1
@@ -80,10 +108,16 @@ class memory:
             if  not(len(self.execution_list)==0):
                 inst=self.execution_list.pop(0)
                 bk=self.execution_list_with_blocks.pop(0)
-                if self.Level1 is None or not(bk in self.Level1):
+                if self.Level1 is None :
                     self.Handle_cache1(bk,inst)
                 elif bk in self.Level1:
                     self.maintain(bk,inst,False)
+                elif bk in self.level2:
+                    self.handle_cache2(bk,inst,False)
+                elif not(bk in self.Level1):
+                    self.Handle_cache1(bk,inst)
+                    
+
                 
                 
                 

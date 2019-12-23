@@ -93,18 +93,20 @@ class doubly:
     def Dequeue(self):
         cur = self.head
 
-        if cur.next is None:
+        if self.head.next is None:
+            result=self.head.data
             cur = None
-            self.head = None
+            self.head.data=None
+            return result
         else:
+            prev=None
             while (cur.next is not None):
+                prev=cur
                 cur = cur.next
-
-            prev = cur.prev
+            prev.prev= None
             prev.next = None
-            cur.prev = None
             self.counter = self.counter-1
-            return cur
+            return cur.data
 
     def findBlock(self,key,is_from_Ram):
         cur = self.head
@@ -116,23 +118,37 @@ class doubly:
                 return tuple((True,miss_planty))
             cur = cur.next
         return(False,0)            
-
-'''if __name__ == "__main__":
+'''
+if __name__ == "__main__":
     obj=doubly(6)
     obj.Queue(3)
+    obj.Queue(3)
+    obj.Queue(3)
+    obj.display()
+    print(obj.Dequeue())
+    print(obj.Dequeue())
     obj.Queue(4)
-    obj.Queue(5)
-    obj.display()
-    obj.delete_node(5)
-    obj.display()
     obj.Queue(6)
+    obj.Queue(7)
+    obj.Queue(9)
     obj.display()
-    obj.delete_node(3)
+    print(obj.Dequeue())
+    print(obj.Dequeue())
+    print(obj.Dequeue())
+    print(obj.Dequeue())
+    print(obj.Dequeue())
     obj.display()
-    obj.Queue(1)
-    obj.delete_node(6)
+    obj.Queue(4)
+    obj.Queue(6)
+    obj.Queue(7)
+    obj.Queue(9)
     obj.display()
-'''
+    print(obj.Dequeue())
+    print(obj.Dequeue())
+    print(obj.Dequeue())
+    print(obj.Dequeue())
+    print(obj.Dequeue())'''
     
+
 
         
