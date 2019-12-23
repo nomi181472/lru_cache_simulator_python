@@ -63,12 +63,13 @@ class memory:
             self.Level1[bk]=value
             self.maintain(bk,inst,True)
         else:
-            past=self.order1.Dequeue()
-            value=self.Level1.pop(past)
-            if self.order2 is None:
-                self.order2=dll.doubly(int(self.c2/self.block))
             length_of_cache2=len(self.level2)
             if length_of_cache2<(self.c2/self.block):
+                past=self.order1.Dequeue()
+                value=self.Level1.pop(past)
+                if self.order2 is None:
+                    self.order2=dll.doubly(int(self.c2/self.block))
+                self.order2.Queue(past)
                 self.level2[past]=value
                 self.Handle_cache1(bk,inst)
             else:
@@ -98,7 +99,7 @@ class memory:
         print("Hit time: ",self.hit_time)
         print("\nRemaining Inst: ",self.execution_list)
         print("\nRemaining Block",self.execution_list_with_blocks)
-        print("Cache level 1: ")
+        print("\nCache level 1: ")
         for key,value in self.Level1.items():
             print("block:",key)
             value.display(0,0,False)
