@@ -20,6 +20,7 @@ class memory:
         self.hit_time=0
         self.hit_ratio=0
         self.no_of_cache_hit=0
+        self.key=0
     def set(self, a=0, b=0, c=0, block=0):
         self.ram = a
         self.Ram = dict()
@@ -60,13 +61,13 @@ class memory:
             self.level2=dict()
             self.order1=dll.doubly(self.c1/self.block)
         length_of_cache=len(self.Level1)
-        if length_of_cache<(self.c1/self.block):
+        if length_of_cache<(int(self.c1/self.block)):
             value=self.Ram[bk]
             self.Level1[bk]=value
             self.maintain(bk,inst,True)
         else:
             length_of_cache2=len(self.level2)
-            if length_of_cache2<(self.c2/self.block):
+            if length_of_cache2<(int(self.c2/self.block)):
                 past=self.order1.Dequeue()
                 value=self.Level1.pop(past)
                 if self.order2 is None:
@@ -88,7 +89,7 @@ class memory:
         value2=self.Level1.pop(past)
         self.Level1[bk]=value
         self.order1.Queue(bk)
-        if(len(self.level2)<self.c2/self.block):
+        if(len(self.level2)<int(self.c2/self.block)):
             self.order2.Queue(past)
             self.level2[past]=value2
         self.hit_time=self.hit_time+2  #here we take 2 because of cache level 2
@@ -98,7 +99,10 @@ class memory:
             self.execution_list.append(inst)
             self.execution_list_with_blocks.append(bk)
     def show_info(self):
-        temp=input("\n\n\npress any key")
+        if(self.key=="c"or self.key=="C"):
+            time.sleep(1)
+        else:
+            self.key=input("\n\n\npress any key or C=continue:\t")
         os.system("cls")
         print("Miss planety: ",self.MissPlanty)
         print("Hit time: ",self.hit_time)
@@ -108,7 +112,7 @@ class memory:
         for key,value in self.Level1.items():
             print("block:",key)
             value.display(0,0,False)
-        print("Cache level 2: ")
+        print("\nCache level 2: ")
         for key,value in self.level2.items():
             print("block:",key)
             value.display(0,0,False)
@@ -146,11 +150,12 @@ class memory:
                 elif not(bk in self.Level1):
                     self.Handle_cache1(bk,inst)
             self.show_info()
+        os.system("cls")
         print("\nMiss penalty:",self.MissPlanty)
-        print("\nNo of Cache hits:\n",self.no_of_cache_hit)
+        print("\nNo of Cache hits:",self.no_of_cache_hit)
         self.hit_ratio=(self.no_of_cache_hit)/(self.no_of_cache_hit+self.MissPlanty)*100
         print("\nHit Ratio: ",self.hit_ratio,"%")
-        print("\nMiss Rate:",1-self.hit_ratio/100)
+        print("\nMiss Rate:",1-self.hit_ratio,"%")
         print("Avg Access Memory:",self.hit_time+(1-self.hit_ratio/100)*self.MissPlanty)
                     
 
