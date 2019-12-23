@@ -18,6 +18,8 @@ class memory:
         self.level2 = None
         self.MissPlanty=0
         self.hit_time=0
+        self.hit_ratio=0
+        self.no_of_cache_hit=0
     def set(self, a=0, b=0, c=0, block=0):
         self.ram = a
         self.Ram = dict()
@@ -37,7 +39,7 @@ class memory:
             print("\nBlock :", key)
             value.display(key, self.block)
 
-    def execute_inst(self):
+    def get_inst(self):
         while(1):
             self.Display()
             print("Instructions:", self.execution_list)
@@ -72,7 +74,9 @@ class memory:
                 self.order2.Queue(past)
                 self.level2[past]=value
                 self.Handle_cache1(bk,inst)
+                self.hit_time=self.hit_time+1
             else:
+                self.hit_time=self.hit_time+1
                 past=self.order2.Dequeue()
                 waste_it=self.level2.pop(past)
                 self.Handle_cache1(bk,inst)
@@ -94,6 +98,7 @@ class memory:
             self.execution_list.append(inst)
             self.execution_list_with_blocks.append(bk)
     def show_info(self):
+        temp=input("\n\n\npress any key")
         os.system("cls")
         print("Miss planety: ",self.MissPlanty)
         print("Hit time: ",self.hit_time)
@@ -133,12 +138,20 @@ class memory:
                 if self.Level1 is None :
                     self.Handle_cache1(bk,inst)
                 elif bk in self.Level1:
+                    self.no_of_cache_hit=self.no_of_cache_hit+1
                     self.maintain(bk,inst,False)
                 elif bk in self.level2:
+                    self.no_of_cache_hit=self.no_of_cache_hit+1
                     self.handle_cache2(bk,inst,False)
                 elif not(bk in self.Level1):
                     self.Handle_cache1(bk,inst)
             self.show_info()
+        print("\nMiss penalty:",self.MissPlanty)
+        print("\nNo of Cache hits:\n",self.no_of_cache_hit)
+        self.hit_ratio=(self.no_of_cache_hit)/(self.no_of_cache_hit+self.MissPlanty)*100
+        print("\nHit Ratio: ",self.hit_ratio,"%")
+        print("\nMiss Rate:",1-self.hit_ratio/100)
+        print("Avg Access Memory:",self.hit_time+(1-self.hit_ratio/100)*self.MissPlanty)
                     
 
                 
@@ -162,5 +175,5 @@ if __name__ == "__main__":
     cache1_size = int(input("\nEnter Cache 1 Size:"))
     cache2_size = int(input("\nEnter Cache 2 Size:"))
     lru.set(ram_size, cache1_size, cache2_size, block_size)
-    lru.execute_inst()
+    lru.get_inst()
     lru.start_execute()
