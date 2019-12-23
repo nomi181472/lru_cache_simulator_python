@@ -1,6 +1,7 @@
 import doubly_linklist as dll
 import random
 import os
+import time
 
 
 class memory:
@@ -50,6 +51,7 @@ class memory:
             self.execution_list.append(int(op))
             self.execution_list_with_blocks.append(myblock)
             os.system("cls")
+            os.system("cls")
     def Handle_cache1(self,bk,inst):
         if self.Level1 is None:
             self.Level1=dict()
@@ -69,10 +71,13 @@ class memory:
             if length_of_cache2<(self.c2/self.block):
                 self.level2[past]=value
                 self.Handle_cache1(bk,inst)
-                #self.maintain2(past,inst,False)
+            else:
+                past=self.order2.Dequeue()
+                waste_it=self.level2.pop(past)
+                self.Handle_cache1(bk,inst)
                 
     def handle_cache2(self,bk,inst,check):
-        
+
         value=self.level2[bk]
         past=self.order1.Dequeue()
         value2=self.Level1.pop(past)
@@ -87,7 +92,22 @@ class memory:
         if is_found==False:
             self.execution_list.append(inst)
             self.execution_list_with_blocks.append(bk)
-        
+    def show_info(self):
+        os.system("cls")
+        print("Miss planety: ",self.MissPlanty)
+        print("Hit time: ",self.hit_time)
+        print("\nRemaining Inst: ",self.execution_list)
+        print("\nRemaining Block",self.execution_list_with_blocks)
+        print("Cache level 1: ")
+        for key,value in self.Level1.items():
+            print("block:",key)
+            value.display(0,0,False)
+        print("Cache level 2: ")
+        for key,value in self.level2.items():
+            print("block:",key)
+            value.display(0,0,False)
+
+           
     def maintain(self,bk,inst,check):
         value=self.Level1[bk]
         self.hit_time=self.hit_time+1
@@ -104,6 +124,7 @@ class memory:
 
     def start_execute(self):
         n=len((self.execution_list))
+        #self.show_info()
         for i in range(n):
             if  not(len(self.execution_list)==0):
                 inst=self.execution_list.pop(0)
@@ -116,6 +137,7 @@ class memory:
                     self.handle_cache2(bk,inst,False)
                 elif not(bk in self.Level1):
                     self.Handle_cache1(bk,inst)
+            self.show_info()
                     
 
                 

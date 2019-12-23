@@ -81,12 +81,14 @@ class doubly:
 
         
         
-    def display(self,mem=0,block=0):
+    def display(self,mem=0,block=0,check=True):
         temp = self.head
         mem=mem*block
         while(temp):
-            
-            print(mem,': ',temp.data) 
+            if check==True:
+                print(mem,': ',temp.data) 
+            else:
+                print(temp.data)
             mem=mem+1
             temp = temp.next
     
@@ -96,17 +98,19 @@ class doubly:
         if self.head.next is None:
             result=self.head.data
             cur = None
-            self.head.data=None
+            self.head=None
+            self.counter = self.counter-1
             return result
         else:
             prev=None
             while (cur.next is not None):
                 prev=cur
                 cur = cur.next
+            result=cur.data
             prev.prev= None
             prev.next = None
             self.counter = self.counter-1
-            return cur.data
+            return result
 
     def findBlock(self,key,is_from_Ram):
         cur = self.head
